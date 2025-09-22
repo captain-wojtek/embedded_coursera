@@ -9,13 +9,13 @@
  *
  *****************************************************************************/
 /**
- * @file <Add File Name> 
- * @brief <Add Brief Description Here >
+ * @file stats.c
+ * @brief To calculate the statistics of the array
  *
- * <Add Extended Description Here>
+ * Calculates the statistics of the given array and prints it out to the screen
  *
- * @author <Add FirsName LastName>
- * @date <Add date >
+ * @author Sudharshan SS
+ * @date 22.09.2025
  *
  */
 
