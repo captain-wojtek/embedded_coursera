@@ -21,6 +21,7 @@
 #      <Put a description of the supported Overrides here
 #
 #------------------------------------------------------------------------------
+<<<<<<< HEAD
 include sources.mk              #including the sources.mk file
 
 # Platform Overrides
@@ -73,3 +74,23 @@ clean:                                                            #rule for clea
 $(TARGET): $(OBJS)                                                #rule to build completely and generate the required files
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(OBJS) -o $@
 	size $@
+=======
+include sources.mk
+
+# Platform Overrides
+PLATFORM = 
+
+# Architectures Specific Flags
+LINKER_FILE = 
+CPU = 
+ARCH = 
+SPECS = 
+
+# Compiler Flags and Defines
+CC = 
+LD = 
+LDFLAGS = 
+CFLAGS = 
+CPPFLAGs = 
+
+>>>>>>> dev_c1m2

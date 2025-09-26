@@ -10,6 +10,7 @@
 #*****************************************************************************
 
 # Add your Source files to this variable
+<<<<<<< HEAD
 SOURCES =                                  \
         	./main.c                         \
 			./memory.c                       \
@@ -22,3 +23,10 @@ INCLUDES =                     \
             -I../include/CMSIS  \
 			-I../include/common \
 			-I../include/msp432  
+=======
+SOURCES =
+
+# Add your include paths to this variable
+INCLUDES = 
+
+>>>>>>> dev_c1m2
