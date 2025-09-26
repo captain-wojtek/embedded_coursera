@@ -28,6 +28,7 @@ PLATFORM = HOST
 OBJS = $(SOURCES:.c=.o)
 TARGET = main.out
 INC = $(INCLUDES)
+MAP = $(TARGET).map
 
 # Compiler Flags and Defines
 
@@ -35,7 +36,7 @@ ifeq ($(PLATFORM), HOST)
 	CC = gcc
 	LD = gcc
 	CFLAGS = -Wall -Werror -g -O0 -std=c99
-	CPPFLAGS = -DHOST $(INC)
+	CPPFLAGS = -DHOST $(INC) -MD -MP -MF
 else
 	LINKER_FILE = ../msp432p401r.lds
 	CPU = cortex-m4
@@ -45,8 +46,8 @@ else
 	LD = arm-none-eabi-gcc
 	CFLAGS = -Wall -Werror -g -O0 -std=c99 \
 			 -mcpu=$(CPU) -mthumb -march=$(ARCH) -mfloat-abi=hard -mfpu=fpv4-sp-d16
-	CPPFLAGS = -DMSP432 $(INC)
-	LDFLAGS = --specs=$(SPECS) -T$(LINKER_FILE)
+	CPPFLAGS = -DMSP432 $(INC) -MD -MP -MF $(@:.o=.dep)
+	LDFLAGS = --specs=$(SPECS) -T$(LINKER_FILE) -Wl,-Map=$(MAP)
 
 endif
 
@@ -57,7 +58,7 @@ build: $(TARGET)
 compile-all: $(OBJS)
 
 clean: 
-	rm -f *.i *.o *.asm *.map *.out
+	rm -f *.i *.o *.asm *.map *.out *.dep *.d
 
 %.i: %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -E $< -o $@
@@ -70,3 +71,5 @@ clean:
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(OBJS) -o $@
+
+-include $(OBJS:.o=.d)
