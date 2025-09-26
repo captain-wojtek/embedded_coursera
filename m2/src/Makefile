@@ -72,3 +72,4 @@ clean:                                                            #rule for clea
 
 $(TARGET): $(OBJS)                                                #rule to build completely and generate the required files
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(OBJS) -o $@
+	size $@
