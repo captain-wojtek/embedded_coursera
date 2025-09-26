@@ -25,7 +25,6 @@ include sources.mk              #including the sources.mk file
 
 # Platform Overrides
 PLATFORM = HOST                 #defining default platform and other variables
-OBJS = $(SOURCES:.c=.o)
 TARGET = c1m2.out
 INC = $(INCLUDES)
 MAP = $(TARGET).map
@@ -33,11 +32,13 @@ MAP = $(TARGET).map
 # Compiler Flags and Defines
 
 ifeq ($(PLATFORM), HOST)                                         #flags and defines for host platform
+	OBJS = main.o memory.o
 	CC = gcc
 	LD = gcc
 	CFLAGS = -Wall -Werror -g -O0 -std=c99
-	CPPFLAGS = -DHOST $(INC) -MD -MP -MF
+	CPPFLAGS = -DHOST $(INC) -MD -MP -MF $(@:.o=.dep)
 else                                                             #flags and defines for msp432 platform
+	OBJS = $(SOURCES:.c=.o)
 	LINKER_FILE = ../msp432p401r.lds                             
 	CPU = cortex-m4
 	ARCH = armv7e-m
