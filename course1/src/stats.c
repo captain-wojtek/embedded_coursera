@@ -23,16 +23,19 @@
 
 #include <stdio.h>
 #include "stats.h"
+#include "platform.h"
 
 /* Size of the Data Set */
 #define SIZE (40)
 
 void print_array(unsigned char *arr, unsigned int len){         //Definition for print_array function
 
+  #ifdef VERBOSE
   for (int i = 0; i<len; i++){
-    printf("Element at index %d: %d\n", i, *(arr + i));
+    PRINTF("Element at index %d: %d\n", i, *(arr + i));
   }
-  printf("\n");
+  PRINTF("\n");
+  #endif
 
 }
 
@@ -114,6 +117,7 @@ void print_statistics(unsigned char *arr, unsigned int len){    //Definition for
 
 }
 
+/*
 void main() {
 
   unsigned char test[SIZE] = { 34, 201, 190, 154,   8, 194,   2,   6,           //input array
@@ -127,3 +131,5 @@ void main() {
   print_statistics(test, SIZE);
 
 }
+
+*/

@@ -25,21 +25,21 @@ include sources.mk              #including the sources.mk file
 
 # Platform Overrides
 PLATFORM = HOST                 #defining default platform and other variables
-TARGET = c1m2.out
+TARGET = course1.out
 INC = $(INCLUDES)
 MAP = $(TARGET).map
 
 # Compiler Flags and Defines
 
 ifeq ($(PLATFORM), HOST)                                         #flags and defines for host platform
-	OBJS = main.o memory.o
+	OBJS = src/main.o src/memory.o src/stats.o src/data.o src/course1.c
 	CC = gcc
 	LD = gcc
 	CFLAGS = -Wall -Werror -g -O0 -std=c99
 	CPPFLAGS = -DHOST $(INC) -MD -MP -MF $(@:.o=.dep)
 else                                                             #flags and defines for msp432 platform
 	OBJS = $(SOURCES:.c=.o)
-	LINKER_FILE = ../msp432p401r.lds                             
+	LINKER_FILE = msp432p401r.lds                             
 	CPU = cortex-m4
 	ARCH = armv7e-m
 	SPECS = nosys.specs
@@ -47,9 +47,17 @@ else                                                             #flags and defi
 	LD = arm-none-eabi-gcc
 	CFLAGS = -Wall -Werror -g -O0 -std=c99 \
 			 -mcpu=$(CPU) -mthumb -march=$(ARCH) -mfloat-abi=hard -mfpu=fpv4-sp-d16
-	CPPFLAGS = -DMSP432 $(INC) -MD -MP -MF $(@:.o=.dep)
+	CPPFLAGS = -DMSP432 $(INC) -MD -MP -MF $(@:.o=.dep) -DVERBOSE
 	LDFLAGS = --specs=$(SPECS) -T$(LINKER_FILE) -Wl,-Map=$(MAP)
 
+endif
+
+ifdef VERBOSE
+	CPPFLAGS+=-D$(VERBOSE)
+endif
+
+ifdef COURSE
+	CPPFLAGS+=-D$(COURSE)
 endif
 
 .PHONY: compile-all build clean                                   #defining required phonies
@@ -59,7 +67,7 @@ build: $(TARGET)
 compile-all: $(OBJS)
 
 clean:                                                            #rule for clean phony
-	rm -f *.i *.o *.asm *.map *.out *.dep *.d
+	find . -type f \( -name "*.o" -o -name "*.map" -o -name "*.out" -o -name "*.dep" -o -name "*.d" -o -name "*.i" -o -name "*.asm" \) -delete
 
 %.i: %.c                                                          #rule for generating .i files
 	$(CC) $(CFLAGS) $(CPPFLAGS) -E $< -o $@
